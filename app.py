@@ -39,5 +39,5 @@ class User(Resource):
         return user, 201
 
 api.add_resource(User, "/user/<string:name>")
-app.run(debug=True)
+app.run(debug=True,port=8000)
 
