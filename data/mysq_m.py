@@ -39,7 +39,7 @@ def createUsersTable(table_name):
 def addUser(user: tuple):
     query = 'INSERT INTO ' \
             + USERS_TABLE \
-            + ' (fullLogin, login, password, about, uniqueId) VALUES(%s, %s, %s, %s, %s, %s)'
+            + ' (fullLogin, login, password, about, uniqueId) VALUES(%s, %s, %s, %s, %s)'
     values = (
         user[0],
         user[1],
@@ -53,9 +53,9 @@ def addUser(user: tuple):
 
 
 def getUser(login: str):
-    query = "SELECT * FROM " + USERS_TABLE + " WHERE fullLogin = " + login
-    cursor.execute(query)
-    return cursor.fetchone()
+    query = "SELECT * FROM " + USERS_TABLE + " WHERE fullLogin = %s"
+    cursor.execute(query, (login,))
+    return cursor.fetchall()
 
 
 def create_user_message_table(userId):
@@ -65,7 +65,7 @@ def create_user_message_table(userId):
         + " (id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,"
           " text VARCHAR(255),"
           " friendFullLogin VARCHAR(255),"
-          " datetime DATETIME"
+          " datetime DATETIME)"
     )
     cursor.execute("show tables")
     tables = cursor.fetchall()

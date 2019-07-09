@@ -2,18 +2,6 @@ from flask_restful import Resource, reqparse
 import cases.userCase as userCase
 from cases.userCase import User
 
-users = [
-    {
-        "name": "Xach",
-        "age": 42
-    },
-    {
-        "name": "pidor",
-        "age": 13
-    }
-]
-
-
 class UserResource(Resource):
     def get(self, name):
         userResult = userCase.getUser(name)
@@ -21,8 +9,12 @@ class UserResource(Resource):
 
     def post(self):
         parser = reqparse.RequestParser()
+        parser.add_argument("fullLogin")
+        parser.add_argument("login")
+        parser.add_argument("password")
+        parser.add_argument("uniqueId")
+        parser.add_argument("about")
         args = parser.parse_args()
-        ll = fullLogin=args["fullLogin"]
         postUser = User(
             fullLogin=args["fullLogin"],
             login=args["login"],

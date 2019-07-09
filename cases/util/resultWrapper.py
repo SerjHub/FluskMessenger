@@ -16,7 +16,7 @@ fail = {
 
 
 def xSuccess(r_data=None, r_details=None):
-    Success = fail.copy()
+    Success = success.copy()
     Success[data] = r_data
     Success[details] = r_details
     return Success

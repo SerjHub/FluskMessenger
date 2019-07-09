@@ -7,14 +7,15 @@ USER_OWN_MESSAGE_TABLE = "own_user_table"
 
 mysq_m.USERS_TABLE = USERS_TABLE
 mysq_m.USER_TABLE_TUPLE = USER_TABLE_TUPLE
+mysq_m.USER_MESSAGE_TABLE = USER_OWN_MESSAGE_TABLE
 
 class User():
     def __init__(self, fullLogin, login, password, uniqueId, about):
-        self.fullLogin = ""
-        self.login = ""
-        self.password = ""
-        self.uniqueId = ""
-        self.about = ""
+        self.fullLogin = fullLogin
+        self.login = login
+        self.password = password
+        self.uniqueId = uniqueId
+        self.about = about
 
     def map(self, list: list):
         self.fullLogin = list[0]
@@ -28,8 +29,8 @@ def checkUserTable():
     if not result:
         mysq_m.createUsersTable(USER_TABLE_TUPLE)
 
-
-def getUser(uniqueName: str):
+#   API call   #
+def getUser(uniqueName:str):
     row = mysq_m.getUser(uniqueName)
     if len(row) == 0:
         result = xFail()
@@ -49,21 +50,23 @@ def getUser(uniqueName: str):
 #    API call   #
 def create_user(user: User):
     row = mysq_m.getUser(user.fullLogin)
-    if len(row) != 0:
+    cou = 0
+    for i in row:
+        cou = cou + 1
+        print("cou printed " + cou.__str__() + "   and i " + i.__str__() )
+    if cou > 0:
         r = xFail(r_details="User " + user.fullLogin + " already exists")
         return r, 422
-    else:
-        return createUser(user)
+    return createUser(user)
 
 
 def createUser(user:User):
-    userTuple = mysq_m.addUser(
-        (user.fullLogin,
+    userTuple = (user.fullLogin,
          user.login,
          user.about,
          user.uniqueId,
          user.password,)
-    )
+
     user_id = mysq_m.addUser(userTuple)
     if user_id == -1:
         return xFail(
@@ -72,10 +75,10 @@ def createUser(user:User):
     else:
         rs = mysq_m.create_user_message_table(user.fullLogin)
         if rs:
-            return xSuccess()
+            return xSuccess(), 201
         else:
             return xFail(
                 r_details="DataBase Error when create message table for user with fullLogin: " + user.fullLogin
-            )
+            ), 501
 
 
