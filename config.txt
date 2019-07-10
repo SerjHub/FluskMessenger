@@ -1,3 +1,3 @@
 {
-  "mysql_password": "1234qwer"
+  "mysql_password": "root"
 }
