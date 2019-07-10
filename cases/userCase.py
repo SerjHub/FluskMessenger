@@ -27,7 +27,7 @@ class User():
 def checkUserTable():
     result = mysq_m.isTableExists(USER_TABLE_TUPLE)
     if not result:
-        mysq_m.createUsersTable(USER_TABLE_TUPLE)
+        mysq_m.createUsersTable()
 
 #   API call   #
 def getUser(uniqueName:str):

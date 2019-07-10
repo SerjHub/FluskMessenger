@@ -1,14 +1,14 @@
 import mysql.connector as mysql
+from config import mysql_pass
 
 USERS_TABLE: str
 USER_TABLE_TUPLE: tuple
-
 USER_MESSAGE_TABLE: str
 
 db = mysql.connect(
     host="localhost",
     user="root",
-    passwd="1234qwer",
+    passwd=mysql_pass,
     database="MagicMessenger",
     auth_plugin='mysql_native_password'
 )
@@ -23,10 +23,10 @@ def isTableExists(table_name):
     return tables.count(table_name) > 0
 
 
-def createUsersTable(table_name):
+def createUsersTable():
     cursor.execute(
         "CREATE TABLE "
-        + table_name
+        + USERS_TABLE
         + " (id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,"
           " fullLogin VARCHAR(255),"
           " login VARCHAR(255),"
