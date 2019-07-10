@@ -1,9 +1,9 @@
 import mysql.connector as mysql
 from config import mysql_pass
 
-USERS_TABLE: str
-USER_TABLE_TUPLE: tuple
-USER_MESSAGE_TABLE: str
+USERS_TABLE = ""
+USER_TABLE_TUPLE = ""
+USER_MESSAGE_TABLE = ""
 
 db = mysql.connect(
     host="localhost",
